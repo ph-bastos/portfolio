@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de notificações - Pedro Bastos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .project-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 60px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .project-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.2;
+        }
+
+        .project-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .project-content {
+            padding: 60px 0;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+
+        .content-text:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Figma Embed */
+        .figma-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Feature List */
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-icon {
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .feature-text {
+            font-size: 1rem;
+            color: #2c3e50;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* Tags */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        .project-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .result-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .result-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Hypothesis Cards */
+        .hypothesis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .hypothesis-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .hypothesis-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        /* Navigation */
+        .project-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0;
+            border-top: 1px solid #e1e8ed;
+            margin-top: 40px;
+        }
+
+        .nav-project {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-project:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-arrow {
+            font-size: 1.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .content-section {
+                padding: 30px 25px;
+            }
+
+            .project-meta {
+                gap: 20px;
+                flex-direction: column;
+            }
+
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hypothesis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-navigation {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .figma-embed {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="project-header">
+        <div class="container">
+            <a href="pedro-bastos-portfolio.html" class="back-button">
+                ← Voltar ao portfólio
+            </a>
+            
+            <div class="project-status" style="display: inline-block; background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 20px;">
+                Em produção
+            </div>
+            
+            <h1 class="project-title">Central de notificações</h1>
+            <p class="project-subtitle">Mais clareza, agilidade e confiança na jornada do profissional de saúde</p>
+            
+            </div>
+        </div>
+    </header>
+
+    <main class="project-content">
+        <div class="container">
+            <section class="content-section">
+                <h2 class="section-title">Introdução</h2>
+                <p class="content-text">
+                    Profissionais de saúde precisam lidar diariamente com consultas, reagendamentos, mensagens de pacientes e atualizações críticas. Antes da central de notificações, essas informações estavam dispersas, exigindo navegação entre diferentes telas e aumentando a chance de perda de dados relevantes.
+                </p>
+                <p class="content-text">
+                    A central foi criada para unificar alertas, mensagens e ações pendentes em um único espaço, melhorando a fluidez do trabalho e a confiabilidade da experiência.
+                </p>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Problema</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Falta de visibilidade para atualizações críticas</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Experiência fragmentada com dados espalhados em múltiplas áreas</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Aumento de carga cognitiva para gerenciar tarefas simples</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Risco de erros e esquecimentos por ausência de um sistema centralizado</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Hipóteses</h2>
+                <div class="hypothesis-grid">
+                    <div class="hypothesis-card">
+                        <p class="content-text">Uma central de notificações poderia reduzir o tempo gasto em tarefas administrativas</p>
+                    </div>
+                    <div class="hypothesis-card">
+                        <p class="content-text">A presença de alertas centralizados ajudaria a aumentar o engajamento com a plataforma</p>
+                    </div>
+                    <div class="hypothesis-card">
+                        <p class="content-text">O componente teria potencial de impactar a retenção e confiança dos profissionais</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Objetivos do Projeto</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Facilitar o acesso a informações importantes em tempo real</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Reduzir fricções na gestão de tarefas do profissional</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Melhorar a usabilidade e previsibilidade da plataforma</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Aumentar a percepção de organização e confiabilidade</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Metodologia</h2>
+                <p class="content-text">
+                    <strong>1. Mapeamento da jornada atual:</strong> Análise detalhada do fluxo sem central de notificações, identificando pontos de atrito e perda de informação.
+                </p>
+                <p class="content-text">
+                    <strong>2. Benchmarking:</strong> Estudo de outros sistemas de saúde e SaaS para identificar melhores práticas em centralização de alertas.
+                </p>
+                <p class="content-text">
+                    <strong>3. Entrevistas com stakeholders:</strong> Conversas com equipes de produto, atendimento e CX para entender necessidades internas.
+                </p>
+                <p class="content-text">
+                    <strong>4. Prototipagem:</strong> Criação de protótipo em Figma com foco em previsibilidade e facilidade de uso.
+                </p>
+                <p class="content-text">
+                    <strong>5. Validação:</strong> Testes de usabilidade com usuários reais para ajustar a proposta.
+                </p>
+                <p class="content-text">
+                    <strong>6. Planejamento de KPIs:</strong> Definição de métricas de engajamento e eficiência pós-release.
+                </p>
+
+                <div class="project-tags">
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">Prototipagem</span>
+                    <span class="project-tag">Design System</span>
+                    <span class="project-tag">Usabilidade</span>
+                    <span class="project-tag">Healthcare</span>
+                    <span class="project-tag">Dashboard</span>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Versão Implementada</h2>
+                <p class="content-text">
+                    A solução final centraliza todas as notificações em um componente acessível e contextual, com hierarquia clara de informações e ações diretas para as tarefas mais comuns.
+                </p>
+
+                <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="1024" height="450" src="https://embed.figma.com/design/lrMeFbe9ELT2Bg0l3fnRIC/projetos?node-id=28-15184&embed-host=share" 
+                allowfullscreen>
+            </iframe>
+
+                <p class="content-text">
+                    O design prioriza a clareza visual, com categorização inteligente de alertas e acesso rápido às ações mais utilizadas pelos profissionais de saúde.
+                </p>
+
+               <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="1024" height="450" src="https://embed.figma.com/design/lrMeFbe9ELT2Bg0l3fnRIC/projetos?node-id=28-12634&embed-host=share" 
+               allowfullscreen>
+            </iframe>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Impacto Alcançado</h2>
+                
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-number">37%</div>
+                        <div class="result-description">Aumento nas interações médias com notificações por sessão</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-number">25%</div>
+                        <div class="result-description">Redução no tempo para reagendar consultas</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-number">NPS+</div>
+                        <div class="result-description">Melhora no NPS relacionado à organização e usabilidade</div>
+                    </div>
+                </div>
+
+                <p class="content-text">
+                    <strong>Principais conquistas:</strong>
+                </p>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">37% de aumento nas interações médias com notificações por sessão após o lançamento</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Média de 25% de redução no tempo para reagendar consultas com acesso direto pela central</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Feedbacks qualitativos positivos indicando maior previsibilidade e controle na rotina</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Tendência de melhora no NPS, especialmente em menções à organização e usabilidade</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div class="feature-text">Base estruturada para alertas inteligentes e futuras automações baseadas em IA</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Reflexão Final</h2>
+                <p class="content-text">
+                    Este projeto demonstrou como pequenas melhorias na organização da informação podem gerar grandes impactos na experiência do usuário. A centralização das notificações não apenas reduziu a carga cognitiva dos profissionais, mas também criou uma base sólida para futuras evoluções do produto.
+                </p>
+                <p class="content-text">
+                    O sucesso da implementação validou a importância de ouvir as necessidades reais dos usuários e traduzir insights de pesquisa em soluções práticas e eficazes.
+                </p>
+            </section>
+
+            <nav class="project-navigation">
+                <a href="mapeamento-dores-prontuario.html" class="nav-project">
+                    <span class="nav-arrow">←</span>
+                    <span>Projeto anterior</span>
+                </a>
+                <a href="pedro-bastos-portfolio.html" class="nav-project">
+                    <span>Ver todos os projetos</span>
+                </a>
+                <a href="projeto-assistente-ia.html" class="nav-project">
+                    <span>Próximo projeto</span>
+                    <span class="nav-arrow">→</span>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.6s ease-out';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

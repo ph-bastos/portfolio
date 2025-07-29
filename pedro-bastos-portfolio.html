@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedro Bastos — Product Designer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+            margin: 0;
+            padding: 0;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        p, .description, .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+            font-weight: 400;
+        }
+
+        /* Navigation - Hamburger fixo corrigido */
+        .navbar {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: none;
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            transition: right 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .nav-menu.show {
+            right: 0;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            cursor: pointer;
+            padding: 12px;
+            z-index: 1001;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .hamburger span {
+            width: 20px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 2px;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .nav-item {
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-menu.show .nav-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nav-menu.show .nav-item:nth-child(1) { transition-delay: 0.1s; }
+        .nav-menu.show .nav-item:nth-child(2) { transition-delay: 0.2s; }
+        .nav-menu.show .nav-item:nth-child(3) { transition-delay: 0.3s; }
+        .nav-menu.show .nav-item:nth-child(4) { transition-delay: 0.4s; }
+
+        .nav-link {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 25px 50px;
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            font-size: 1.6rem;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 16px;
+            margin: 12px 0;
+            min-width: 250px;
+            text-align: center;
+            transform: scale(0.95);
+            letter-spacing: -0.01em;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: scale(1.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* Header limitado sem overflow */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .profile-image-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: block;
+            object-fit: cover;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Scroll Down Button */
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .scroll-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .scroll-btn .arrow {
+            width: 20px;
+            height: 20px;
+            border: none;
+            border-right: 2px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+            transform: rotate(45deg);
+            display: block;
+            animation: scrollIndicator 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-btn:hover .arrow {
+            border-color: rgba(255, 255, 255, 1);
+        }
+
+        @keyframes scrollIndicator {
+            0%, 100% {
+                transform: rotate(45deg) translateY(0);
+                opacity: 0.5;
+            }
+            50% {
+                transform: rotate(45deg) translateY(6px);
+                opacity: 1;
+            }
+        }
+
+        /* Main Content com fundo claro */
+        main {
+            padding: 60px 0;
+            background: #fafafa;
+            min-height: 100vh;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        /* How I Work Section */
+        .work-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .method-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 0;
+            background: transparent;
+            border: none;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .method-item.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .method-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .method-icon {
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin-right: 20px;
+            margin-top: 8px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .method-item:hover .method-icon {
+            transform: scale(1.5);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .method-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* Projects Carousel */
+        .projects-carousel {
+            position: relative;
+            margin-top: 30px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            z-index: 1;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            gap: 25px;
+            z-index: 1;
+        }
+
+        .project-card {
+            flex: 0 0 350px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1;
+        }
+
+        .project-card:hover {
+            border-color: #667eea;
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.15);
+            z-index: 2;
+        }
+
+        .project-placeholder {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .project-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            z-index: 0;
+        }
+
+        .project-placeholder:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .project-placeholder:hover img {
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+
+        .project-placeholder:hover::after {
+            content: 'Acessar';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInScale 0.3s ease-out;
+            z-index: 2;
+            color: white;
+        }
+
+        .project-placeholder::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .project-card p {
+            color: #5a6c7d;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .project-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .project-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 3;
+        }
+
+        /* Carousel Controls */
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .carousel-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #667eea;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: #667eea;
+        }
+
+        .carousel-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .carousel-btn:disabled:hover {
+            background: white;
+            color: #667eea;
+            box-shadow: none;
+        }
+
+        /* Carousel Indicators */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #667eea;
+            transform: scale(1.2);
+        }
+
+        /* Typewriter Animation */
+        .typewriter-container {
+            margin-top: 30px;
+        }
+
+        .typewriter-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            opacity: 0;
+            position: relative;
+            min-height: 1.8em;
+        }
+
+        .typewriter-text.typing {
+            opacity: 1;
+        }
+
+        .typewriter-text.typing::after {
+            content: '|';
+            color: #667eea;
+            font-weight: bold;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+
+        .typewriter-text.completed {
+            opacity: 1;
+        }
+
+        .typewriter-text.completed::after {
+            display: none;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .contact-info {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .contact-description {
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #5a6c7d;
+            margin-bottom: 40px;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 24px;
+            min-width: 140px;
+            height: 56px;
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .email-btn {
+            color: #667eea;
+            border-color: #667eea;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .email-btn:hover {
+            background: #667eea !important;
+            color: white !important;
+            border-color: #667eea !important;
+        }
+
+        .linkedin-btn {
+            color: #0077b5;
+            border-color: #0077b5;
+        }
+
+        .linkedin-btn:hover {
+            background: #0077b5;
+            color: white;
+        }
+
+        .whatsapp-btn {
+            color: #25d366;
+            border-color: #25d366;
+        }
+
+        .whatsapp-btn:hover {
+            background: #25d366;
+            color: white;
+        }
+
+        .contact-icon {
+            font-size: 1.1rem;
+        }
+
+        .contact-text {
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #7f8c8d;
+            background: white;
+            border-top: 1px solid #ecf0f1;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 30px 20px;
+            }
+
+            .work-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card {
+                flex: 0 0 280px;
+                padding: 20px;
+            }
+
+            .carousel-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .contact-btn {
+                width: 200px;
+            }
+
+            .nav-menu {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .navbar {
+                top: 20px;
+                right: 20px;
+            }
+
+            .hamburger {
+                width: 45px;
+                height: 45px;
+                padding: 10px;
+            }
+
+            .hamburger span {
+                width: 18px;
+            }
+
+            .nav-link {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="#inicio" class="nav-link">Início</a></li>
+                <li class="nav-item"><a href="#projetos" class="nav-link">Projetos</a></li>
+                <li class="nav-item"><a href="#sobre" class="nav-link">Sobre</a></li>
+                <li class="nav-item"><a href="#contato" class="nav-link">Contato</a></li>
+            </ul>
+        </nav>
+
+        <div class="hero-content">
+            <div class="container">
+                <img src="eu.png" alt="Pedro Bastos" class="profile-image-photo">
+                <h1>Pedro Bastos</h1>
+                <p class="subtitle">Product Designer com foco em estratégia, impacto e colaboração.</p>
+                <p class="description">Traduzo objetivos de negócio em experiências úteis e mensuráveis.</p>
+            </div>
+        </div>
+
+        <div class="scroll-down" id="scroll-down">
+            <div class="scroll-btn">
+                <span class="arrow"></span>
+            </div>
+        </div>
+    </header>
+
+    <main id="inicio">
+        <div class="container">
+            <section class="section">
+                <h2>Como eu trabalho</h2>
+                <div class="work-methods">
+                    <div class="method-item">
+                        <div class="method-icon"></div>
+                        <div class="method-text">Pensamento sistêmico</div>
+                    </div>
+                    <div class="method-item">
+                        <div class="method-icon"></div>
+                        <div class="method-text">Foco em objetivos de negócio</div>
+                    </div>
+                    <div class="method-item">
+                        <div class="method-icon"></div>
+                        <div class="method-text">Racional de design bem documentado</div>
+                    </div>
+                    <div class="method-item">
+                        <div class="method-icon"></div>
+                        <div class="method-text">Colaboração com produto, tech e negócio</div>
+                    </div>
+                    <div class="method-item">
+                        <div class="method-icon"></div>
+                        <div class="method-text">Escrita clara e fluxos bem definidos</div>
+                    </div>
+                    <div class="method-item">
+                        <div class="method-icon"></div>
+                        <div class="method-text">Entregas que buscam impacto real</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="projetos">
+                <h2>Projetos</h2>
+                <div class="projects-carousel">
+                    <div class="carousel-container">
+                        <div class="carousel-track" id="carousel-track">
+                            <div class="project-card">
+                                <div class="project-status">Em produção</div>
+                                <div class="project-placeholder" onclick="openProject('assistente-ia')">
+                                    <img src="Image8.png" alt="Assistente de atendimento com IA">
+                                </div>
+                                <h3>Assistente de atendimento com IA</h3>
+                                <p>Componente flutuante projetado para centralizar os recursos de IA, chat e suporte no prontuário. A proposta foi pensada para evoluir de forma independente, sem depender da refatoração total da interface.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">Design System</span>
+                                    <span class="project-tag">IA</span>
+                                    <span class="project-tag">Mobile design</span>
+                                </div>
+                            </div>
+                            <div class="project-card">
+                                <div class="project-status">Em produção</div>
+                                <div class="project-placeholder" onclick="openProject('popups-inteligentes')">
+                                    <img src="Image2.png" alt="Pop-ups inteligentes para atendimento médico">
+                                </div>
+                                <h3>Pop-ups inteligentes para atendimento médico</h3>
+                                <p>Redesign de fluxo da fila de pacientes para aumentar a produtividade médica usando pop-ups proativos com lógica contextual.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">UX Research</span>
+                                    <span class="project-tag">Interface</span>
+                                    <span class="project-tag">Produtividade</span>
+                                </div>
+                            </div>
+                            <div class="project-card">
+                                <div class="project-status">UX Research</div>
+                                <div class="project-placeholder" onclick="openProject('mapeamento-dores')">
+                                    <img src="Image1.png" alt="Mapeamento de dores no prontuário">
+                                </div>
+                                <h3>Mapeamento de dores no prontuário</h3>
+                                <p>Levantamento estratégico de dores reais enfrentadas por profissionais da saúde no uso do prontuário digital.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">Triangulação de dados</span>
+                                    <span class="project-tag">Análise heurística</span>
+                                    <span class="project-tag">Produtividade</span>
+                                </div>
+                            </div>
+                            <div class="project-card">
+                                <div class="project-status">Em produção</div>
+                                <div class="project-placeholder" onclick="openProject('central-notificacoes')">
+                                    <img src="Image4.png" alt="Central de notificações">
+                                </div>
+                                <h3>Central de notificações</h3>
+                                <p>Criação de um fluxo de onboarding com etapas interativas e auxílio contextual para usuários administrativos.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">Interface</span>
+                                    <span class="project-tag">Produtividade</span>
+                                    <span class="project-tag">Mobile design</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-controls">
+                        <button class="carousel-btn" id="prevBtn">‹</button>
+                        <div class="carousel-indicators" id="indicators"></div>
+                        <button class="carousel-btn" id="nextBtn">›</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="sobre">
+                <h2>Sobre mim</h2>
+                <div class="typewriter-container">
+                    <p class="typewriter-text" id="typewriter-1">Sou um Product Designer apaixonado por criar soluções que fazem a diferença. Com experiência em estratégia de produto, pesquisa com usuários e design de interfaces, trabalho para conectar objetivos de negócio com necessidades reais dos usuários.</p>
+                    <p class="typewriter-text" id="typewriter-2">Acredito que o melhor design é aquele que resolve problemas de forma simples e elegante, sempre com foco no impacto mensurável.</p>
+                </div>
+            </section>
+
+            <section class="section" id="contato">
+                <h2>Contato</h2>
+                <p class="contact-description">Vamos conversar?</p>
+                <div class="contact-buttons">
+                    <a href="mailto:phbomoreira@gmail.com" class="contact-btn email-btn" id="email-btn">
+                        <span class="contact-icon">✉️</span>
+                        <span class="contact-text">E-mail</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/pedro-bastos-bb30a3106/" target="_blank" class="contact-btn linkedin-btn">
+                        <span class="contact-icon">💼</span>
+                        <span class="contact-text">LinkedIn</span>
+                    </a>
+                    <a href="https://wa.me/5521993375818" target="_blank" class="contact-btn whatsapp-btn">
+                        <span class="contact-icon">💬</span>
+                        <span class="contact-text">WhatsApp</span>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Pedro Bastos - Product Designer</p>
+        </div>
+    </footer>
+
+    <script>
+        // Carousel functionality
+        class ProjectCarousel {
+            constructor() {
+                this.track = document.getElementById('carousel-track');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.indicatorsContainer = document.getElementById('indicators');
+                this.cards = document.querySelectorAll('.project-card');
+                this.currentIndex = 0;
+                this.cardWidth = 375; // 350px + 25px gap
+                
+                this.init();
+            }
+            
+            init() {
+                this.createIndicators();
+                this.updateCarousel();
+                this.bindEvents();
+                this.autoPlay();
+            }
+            
+            createIndicators() {
+                this.cards.forEach((_, index) => {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'indicator';
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                    this.indicatorsContainer.appendChild(indicator);
+                });
+            }
+            
+            updateCarousel() {
+                const offset = -this.currentIndex * this.cardWidth;
+                this.track.style.transform = `translateX(${offset}px)`;
+                
+                // Update indicators
+                document.querySelectorAll('.indicator').forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === this.currentIndex);
+                });
+                
+                // Update buttons
+                this.prevBtn.disabled = this.currentIndex === 0;
+                this.nextBtn.disabled = this.currentIndex === this.cards.length - 1;
+            }
+            
+            goToSlide(index) {
+                this.currentIndex = Math.max(0, Math.min(index, this.cards.length - 1));
+                this.updateCarousel();
+            }
+            
+            next() {
+                if (this.currentIndex < this.cards.length - 1) {
+                    this.currentIndex++;
+                    this.updateCarousel();
+                }
+            }
+            
+            prev() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    this.updateCarousel();
+                }
+            }
+            
+            bindEvents() {
+                this.nextBtn.addEventListener('click', () => this.next());
+                this.prevBtn.addEventListener('click', () => this.prev());
+                
+                // Touch/swipe support
+                let startX = 0;
+                let currentX = 0;
+                let isDragging = false;
+                
+                this.track.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                });
+                
+                this.track.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    currentX = e.touches[0].clientX;
+                });
+                
+                this.track.addEventListener('touchend', () => {
+                    if (!isDragging) return;
+                    
+                    const diffX = startX - currentX;
+                    if (Math.abs(diffX) > 50) {
+                        if (diffX > 0) {
+                            this.next();
+                        } else {
+                            this.prev();
+                        }
+                    }
+                    
+                    isDragging = false;
+                });
+                
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.prev();
+                    if (e.key === 'ArrowRight') this.next();
+                });
+            }
+            
+            autoPlay() {
+                setInterval(() => {
+                    if (this.currentIndex === this.cards.length - 1) {
+                        this.goToSlide(0);
+                    } else {
+                        this.next();
+                    }
+                }, 5000); // Auto-advance every 5 seconds
+            }
+        }
+
+        // Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('show');
+            document.body.style.overflow = navMenu.classList.contains('show') ? 'hidden' : 'auto';
+        });
+
+        // Fechar menu clicando fora
+        document.addEventListener('click', function(e) {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Fechar menu ao clicar nos links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Scroll Down Button
+        document.getElementById('scroll-down').addEventListener('click', function() {
+            document.getElementById('inicio').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Funcionalidade de copiar email
+        document.getElementById('email-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const emailBtn = this;
+            const email = 'phbomoreira@gmail.com';
+            
+            navigator.clipboard.writeText(email).then(function() {
+                emailBtn.innerHTML = `
+                    <span class="contact-icon">✅</span>
+                    <span class="contact-text">E-mail copiado!</span>
+                `;
+                
+                emailBtn.style.minWidth = '180px';
+                emailBtn.style.background = '#667eea';
+                emailBtn.style.borderColor = '#667eea';
+                emailBtn.style.color = 'white';
+                
+                setTimeout(function() {
+                    emailBtn.innerHTML = `
+                        <span class="contact-icon">✉️</span>
+                        <span class="contact-text">E-mail</span>
+                    `;
+                    emailBtn.style.minWidth = '140px';
+                    emailBtn.style.background = 'white';
+                    emailBtn.style.borderColor = '#667eea';
+                    emailBtn.style.color = '#667eea';
+                }, 3000);
+            });
+        });
+
+        // Animação de revelação dos métodos de trabalho
+        function revealWorkMethods() {
+            const methodItems = document.querySelectorAll('.method-item');
+            const workSection = document.querySelector('.work-methods');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        methodItems.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.classList.add('reveal');
+                            }, index * 150);
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+            
+            observer.observe(workSection);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            revealWorkMethods();
+            // Initialize carousel
+            new ProjectCarousel();
+        });
+
+        // Typewriter Effect
+        function typeWriter(element, text, speed = 50) {
+            return new Promise((resolve) => {
+                if (!element || !text) {
+                    resolve();
+                    return;
+                }
+                
+                element.style.opacity = '1';
+                element.innerHTML = '';
+                element.classList.add('typing');
+                let i = 0;
+                
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        element.classList.remove('typing');
+                        element.classList.add('completed');
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        // Typewriter Observer
+        function initTypewriter() {
+            const typewriterElements = document.querySelectorAll('.typewriter-text');
+            const sobreSection = document.getElementById('sobre');
+            
+            if (!typewriterElements.length || !sobreSection) return;
+            
+            const texts = [
+                'Sou um Product Designer apaixonado por criar soluções que fazem a diferença. Com experiência em estratégia de produto, pesquisa com usuários e design de interfaces, trabalho para conectar objetivos de negócio com necessidades reais dos usuários.',
+                'Acredito que o melhor design é aquele que resolve problemas de forma simples e elegante, sempre com foco no impacto mensurável.'
+            ];
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Inicia o typewriter sequencialmente
+                        async function startTypewriting() {
+                            try {
+                                if (typewriterElements[0]) {
+                                    await typeWriter(typewriterElements[0], texts[0], 30);
+                                }
+                                await new Promise(resolve => setTimeout(resolve, 500));
+                                if (typewriterElements[1]) {
+                                    await typeWriter(typewriterElements[1], texts[1], 30);
+                                }
+                            } catch (error) {
+                                console.log('Typewriter animation error:', error);
+                                // Fallback: mostrar texto normal
+                                typewriterElements.forEach((el, index) => {
+                                    if (el && texts[index]) {
+                                        el.style.opacity = '1';
+                                        el.innerHTML = texts[index];
+                                    }
+                                });
+                            }
+                        }
+                        
+                        startTypewriting();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+            
+            observer.observe(sobreSection);
+        }
+
+        // Inicializa typewriter após DOM carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initTypewriter, 100);
+        });
+
+        // Função para abrir páginas de projeto - ATUALIZADA
+        function openProject(projectId) {
+            // URLs dos projetos
+            const projectUrls = {
+                'assistente-ia': 'projeto-assistente-ia.html',
+                'popups-inteligentes': 'popup_atendimento_page.html',
+                'mapeamento-dores': 'mapeamento-dores-prontuario.html',
+                'central-notificacoes': 'central_notificacoes.html'
+            };
+
+            // Redireciona para a página do projeto
+            if (projectUrls[projectId]) {
+                window.location.href = projectUrls[projectId];
+            } else {
+                console.error('Projeto não encontrado:', projectId);
+            }
+        }
+
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

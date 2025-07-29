@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapeamento de dores no prontuário - Pedro Bastos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .project-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 60px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .project-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .project-content {
+            padding: 60px 0;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+
+        .content-text:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Highlight Stats */
+        .stats-highlight {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .stats-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stats-description {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* Pain Points Grid */
+        .pain-points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .pain-point-card {
+            background: #fff;
+            border: 2px solid #f1f3f4;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .pain-point-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .pain-point-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pain-point-icon {
+            width: 8px;
+            height: 8px;
+            background: #ff6b6b;
+            border-radius: 50%;
+        }
+
+        .pain-point-description {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Positive Points */
+        .positive-points {
+            background: linear-gradient(135deg, #00d4aa 0%, #00b894 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin: 30px 0;
+        }
+
+        .positive-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .positive-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .positive-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .positive-check {
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .result-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .result-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Action Plan */
+        .action-plan {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .action-category {
+            margin-bottom: 25px;
+        }
+
+        .action-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .action-category-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .action-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .action-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+
+        /* Tags */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        .project-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Navigation */
+        .project-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0;
+            border-top: 1px solid #e1e8ed;
+            margin-top: 40px;
+        }
+
+        .nav-project {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-project:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-arrow {
+            font-size: 1.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .content-section {
+                padding: 30px 25px;
+            }
+
+            .project-meta {
+                gap: 20px;
+                flex-direction: column;
+            }
+
+            .pain-points-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-navigation {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .positive-list {
+                grid-template-columns: 1fr;
+            }
+
+            .action-items {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="project-header">
+        <div class="container">
+            <a href="pedro-bastos-portfolio.html" class="back-button">
+                ← Voltar ao portfólio
+            </a>
+            
+            <div class="project-status" style="display: inline-block; background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 20px;">
+                Concluído
+            </div>
+            
+            <h1 class="project-title">Mapeamento de dores no prontuário</h1>
+            <p class="project-subtitle">Pesquisa estruturada que analisou 245 feedbacks para identificar as principais frustrações dos usuários e guiar decisões de produto</p>
+            
+            <div class="project-meta">
+            </div>
+        </div>
+    </header>
+
+    <main class="project-content">
+        <div class="container">
+            <section class="content-section">
+                <h2 class="section-title">Contexto e Desafio</h2>
+                <p class="content-text">
+                    O prontuário médico estava recebendo feedbacks negativos constantes dos usuários, mas não tínhamos uma visão estruturada das principais dores e frustrações. Era necessário um mapeamento sistemático para entender o que estava causando insatisfação e priorizar as melhorias de forma baseada em evidências.
+                </p>
+                <p class="content-text">
+                    O principal desafio era transformar centenas de feedbacks dispersos em insights acionáveis que pudessem guiar o roadmap de produto e destravar decisões que estavam paradas há meses por falta de dados concretos.
+                </p>
+
+                <div class="stats-highlight">
+                    <div class="stats-number">73,9%</div>
+                    <div class="stats-description">dos usuários apresentaram feedback negativo</div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Metodologia</h2>
+                <p class="content-text">
+                    A análise envolveu 245 feedbacks in-app, dados de CSAT e aplicação das heurísticas de Nielsen. Utilizei classificação positiva/negativa, leitura semântica, deep dives temáticos e priorização por matriz ICE.
+                </p>
+                <p class="content-text">
+                    O objetivo era estruturar as evidências e gerar bases sólidas para decisões futuras, sempre mantendo foco nas necessidades reais dos usuários.
+                </p>
+
+                <div class="project-tags">
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">Análise de Dados</span>
+                    <span class="project-tag">Heurísticas de Nielsen</span>
+                    <span class="project-tag">Matriz ICE</span>
+                    <span class="project-tag">CSAT</span>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Principais Dores Identificadas</h2>
+                <p class="content-text">
+                    As reclamações se concentraram em quatro categorias principais: usabilidade, complexidade, desempenho e falta de funcionalidades completas.
+                </p>
+
+                <div class="pain-points-grid">
+                    <div class="pain-point-card">
+                        <div class="pain-point-title">
+                            <div class="pain-point-icon"></div>
+                            Confusão no layout e interface
+                        </div>
+                        <div class="pain-point-description">
+                            Layout poluído e com excesso de informações. Dificuldade de navegação: "Pouco intuitivo, informações estão desorganizadas."
+                        </div>
+                    </div>
+
+                    <div class="pain-point-card">
+                        <div class="pain-point-title">
+                            <div class="pain-point-icon"></div>
+                            Performance e travamentos
+                        </div>
+                        <div class="pain-point-description">
+                            Lento para salvar ou carregar dados. Travamentos frequentes, resultando em perda de informações importantes.
+                        </div>
+                    </div>
+
+                    <div class="pain-point-card">
+                        <div class="pain-point-title">
+                            <div class="pain-point-icon"></div>
+                            Excesso de campos desnecessários
+                        </div>
+                        <div class="pain-point-description">
+                            Campos desnecessários, especialmente para psicólogos. Falta de campos personalizados para anotações específicas.
+                        </div>
+                    </div>
+
+                    <div class="pain-point-card">
+                        <div class="pain-point-title">
+                            <div class="pain-point-icon"></div>
+                            Problemas de preenchimento em tempo real
+                        </div>
+                        <div class="pain-point-description">
+                            Reclamações sobre ter que preencher durante a consulta. Problemas ao alternar entre prontuário e sessão.
+                        </div>
+                    </div>
+
+                    <div class="pain-point-card">
+                        <div class="pain-point-title">
+                            <div class="pain-point-icon"></div>
+                            Perda de dados migrados
+                        </div>
+                        <div class="pain-point-description">
+                            Registros do sistema antigo não transferidos corretamente. Perda de históricos dos pacientes.
+                        </div>
+                    </div>
+
+                    <div class="pain-point-card">
+                        <div class="pain-point-title">
+                            <div class="pain-point-icon"></div>
+                            Exigências inadequadas
+                        </div>
+                        <div class="pain-point-description">
+                            Obrigar preenchimento de CID não aplicável à psicologia. Campos obrigatórios irrelevantes para o contexto.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">O Que os Usuários Valorizam</h2>
+                
+                <div class="positive-points">
+                    <div class="positive-title">Pontos positivos identificados:</div>
+                    <div class="positive-list">
+                        <div class="positive-item">
+                            <div class="positive-check">✓</div>
+                            <span>Praticidade após adaptação</span>
+                        </div>
+                        <div class="positive-item">
+                            <div class="positive-check">✓</div>
+                            <span>Histórico de atendimentos anteriores</span>
+                        </div>
+                        <div class="positive-item">
+                            <div class="positive-check">✓</div>
+                            <span>Campo de resumo útil</span>
+                        </div>
+                        <div class="positive-item">
+                            <div class="positive-check">✓</div>
+                            <span>Integração inicial com IA</span>
+                        </div>
+                        <div class="positive-item">
+                            <div class="positive-check">✓</div>
+                            <span>Facilidade para atendimentos repetidos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="content-text">
+                    Esses pontos positivos ajudaram a direcionar ajustes no backlog, trazendo confiança para evoluções futuras e mostrando que nem tudo precisava ser repensado do zero.
+                </p>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Plano de Ação Prioritário</h2>
+                
+                <div class="action-plan">
+                    <div class="action-category">
+                        <div class="action-category-title">Melhorias visuais e funcionais:</div>
+                        <div class="action-items">
+                            <div class="action-item">Reorganização por blocos</div>
+                            <div class="action-item">Hierarquia tipográfica</div>
+                            <div class="action-item">Salvamento automático</div>
+                            <div class="action-item">Indicação clara de status</div>
+                        </div>
+                    </div>
+
+                    <div class="action-category">
+                        <div class="action-category-title">IA como apoio clínico:</div>
+                        <div class="action-items">
+                            <div class="action-item">Resumo automático de sessões</div>
+                            <div class="action-item">Sugestão de texto por IA</div>
+                            <div class="action-item">Lista de ações pendentes</div>
+                            <div class="action-item">Identificação de lacunas</div>
+                            <div class="action-item">Assistência contextual em tempo real</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Impacto Alcançado</h2>
+                
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-number">3</div>
+                        <div class="result-description">Squads utilizaram como referência</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-number">17</div>
+                        <div class="result-description">Oportunidades priorizadas</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-number">245</div>
+                        <div class="result-description">Feedbacks analisados</div>
+                    </div>
+                </div>
+
+                <p class="content-text">
+                    A pesquisa foi citada em 3 squads como referência para definição de backlog e se tornou base para o componente de IA e a revisão do prontuário. O documento ajudou a destravar decisões que estavam paradas havia meses por falta de evidência real.
+                </p>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Aprendizados</h2>
+                <p class="content-text">
+                    Este projeto demonstrou a importância de estruturar feedbacks dispersos em insights acionáveis. A metodologia de classificação e priorização por matriz ICE foi fundamental para transformar reclamações em oportunidades de melhoria concretas.
+                </p>
+                <p class="content-text">
+                    O envolvimento de múltiplas squads na validação dos achados garantiu que as evidências fossem aceitas organizacionalmente e efetivamente implementadas no roadmap de produto.
+                </p>
+            </section>
+
+            <nav class="project-navigation">
+                <a href="popup_atendimento_page.html" class="nav-project">
+                    <span class="nav-arrow">←</span>
+                    <span>Projeto anterior</span>
+                </a>
+                <a href="pedro-bastos-portfolio.html" class="nav-project">
+                    <span>Ver todos os projetos</span>
+                </a>
+                <a href="central_notificacoes.html" class="nav-project">
+                    <span>Próximo projeto</span>
+                    <span class="nav-arrow">→</span>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.6s ease-out';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
