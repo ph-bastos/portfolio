@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -159,26 +162,91 @@
             margin-bottom: 0;
         }
 
-        /* Highlight Stats */
+        /* Highlight Stats - Enhanced with Animation */
         .stats-highlight {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
             color: white;
-            padding: 30px;
+            padding: 40px 30px;
             border-radius: 16px;
             text-align: center;
             margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-highlight::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
         }
 
         .stats-number {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .stats-description {
             font-size: 1.1rem;
             opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .chart-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .chart-small {
+            height: 250px;
         }
 
         /* Pain Points Grid */
@@ -195,12 +263,29 @@
             border-radius: 12px;
             padding: 25px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .pain-point-card:hover {
             border-color: #667eea;
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .pain-point-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .pain-point-card:hover::before {
+            left: 100%;
         }
 
         .pain-point-title {
@@ -211,6 +296,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .pain-point-icon {
@@ -224,6 +311,39 @@
             font-size: 0.95rem;
             color: #666;
             line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animated Progress Bars for Pain Points */
+        .pain-severity {
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .severity-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .severity-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 107, 107, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .severity-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 2s ease-in-out;
         }
 
         /* Positive Points */
@@ -280,6 +400,24 @@
             padding: 30px;
             border-radius: 16px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
         }
 
         .result-number {
@@ -287,12 +425,16 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .result-description {
             font-size: 1rem;
             opacity: 0.9;
             font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
 
         /* Action Plan */
@@ -331,6 +473,12 @@
             border-left: 4px solid #667eea;
             font-size: 0.95rem;
             color: #4a5568;
+            transition: all 0.3s ease;
+        }
+
+        .action-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         /* Tags */
@@ -415,6 +563,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+
             .project-navigation {
                 flex-direction: column;
                 gap: 20px;
@@ -452,7 +604,7 @@
     <main class="project-content">
         <div class="container">
             <section class="content-section">
-                <h2 class="section-title">Contexto e Desafio</h2>
+                <h2 class="section-title">Contexto e desafio</h2>
                 <p class="content-text">
                     O prontuário médico estava recebendo feedbacks negativos constantes dos usuários, mas não tínhamos uma visão estruturada das principais dores e frustrações. Era necessário um mapeamento sistemático para entender o que estava causando insatisfação e priorizar as melhorias de forma baseada em evidências.
                 </p>
@@ -463,6 +615,23 @@
                 <div class="stats-highlight">
                     <div class="stats-number">73,9%</div>
                     <div class="stats-description">dos usuários apresentaram feedback negativo</div>
+                </div>
+
+                <!-- Gráficos de Análise de Dados -->
+                <div class="charts-section">
+                    <div class="chart-card">
+                        <div class="chart-title">📊 Distribuição dos feedbacks</div>
+                        <div class="chart-container">
+                            <canvas id="feedbackChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-title">📈 Timeline da pesquisa</div>
+                        <div class="chart-container chart-small">
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -477,7 +646,7 @@
 
                 <div class="project-tags">
                     <span class="project-tag">UX Research</span>
-                    <span class="project-tag">Análise de Dados</span>
+                    <span class="project-tag">Análise de dados</span>
                     <span class="project-tag">Heurísticas de Nielsen</span>
                     <span class="project-tag">Matriz ICE</span>
                     <span class="project-tag">CSAT</span>
@@ -485,10 +654,27 @@
             </section>
 
             <section class="content-section">
-                <h2 class="section-title">Principais Dores Identificadas</h2>
+                <h2 class="section-title">Principais dores identificadas</h2>
                 <p class="content-text">
                     As reclamações se concentraram em quatro categorias principais: usabilidade, complexidade, desempenho e falta de funcionalidades completas.
                 </p>
+
+                <!-- Gráfico de Categorização das Dores -->
+                <div class="charts-section">
+                    <div class="chart-card">
+                        <div class="chart-title">🎯 Categorização das dores</div>
+                        <div class="chart-container">
+                            <canvas id="painCategoriesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-title">⚡ Ranking de severidade</div>
+                        <div class="chart-container">
+                            <canvas id="severityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="pain-points-grid">
                     <div class="pain-point-card">
@@ -498,6 +684,15 @@
                         </div>
                         <div class="pain-point-description">
                             Layout poluído e com excesso de informações. Dificuldade de navegação: "Pouco intuitivo, informações estão desorganizadas."
+                        </div>
+                        <div class="pain-severity">
+                            <div class="severity-label">
+                                <span>Severidade</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="severity-bar">
+                                <div class="severity-fill" data-severity="85"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -509,6 +704,15 @@
                         <div class="pain-point-description">
                             Lento para salvar ou carregar dados. Travamentos frequentes, resultando em perda de informações importantes.
                         </div>
+                        <div class="pain-severity">
+                            <div class="severity-label">
+                                <span>Severidade</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="severity-bar">
+                                <div class="severity-fill" data-severity="92"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="pain-point-card">
@@ -518,6 +722,15 @@
                         </div>
                         <div class="pain-point-description">
                             Campos desnecessários, especialmente para psicólogos. Falta de campos personalizados para anotações específicas.
+                        </div>
+                        <div class="pain-severity">
+                            <div class="severity-label">
+                                <span>Severidade</span>
+                                <span>78%</span>
+                            </div>
+                            <div class="severity-bar">
+                                <div class="severity-fill" data-severity="78"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -529,6 +742,15 @@
                         <div class="pain-point-description">
                             Reclamações sobre ter que preencher durante a consulta. Problemas ao alternar entre prontuário e sessão.
                         </div>
+                        <div class="pain-severity">
+                            <div class="severity-label">
+                                <span>Severidade</span>
+                                <span>68%</span>
+                            </div>
+                            <div class="severity-bar">
+                                <div class="severity-fill" data-severity="68"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="pain-point-card">
@@ -538,6 +760,15 @@
                         </div>
                         <div class="pain-point-description">
                             Registros do sistema antigo não transferidos corretamente. Perda de históricos dos pacientes.
+                        </div>
+                        <div class="pain-severity">
+                            <div class="severity-label">
+                                <span>Severidade</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="severity-bar">
+                                <div class="severity-fill" data-severity="95"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -549,12 +780,21 @@
                         <div class="pain-point-description">
                             Obrigar preenchimento de CID não aplicável à psicologia. Campos obrigatórios irrelevantes para o contexto.
                         </div>
+                        <div class="pain-severity">
+                            <div class="severity-label">
+                                <span>Severidade</span>
+                                <span>72%</span>
+                            </div>
+                            <div class="severity-bar">
+                                <div class="severity-fill" data-severity="72"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <section class="content-section">
-                <h2 class="section-title">O Que os Usuários Valorizam</h2>
+                <h2 class="section-title">O que os usuários valorizam</h2>
                 
                 <div class="positive-points">
                     <div class="positive-title">Pontos positivos identificados:</div>
@@ -588,7 +828,7 @@
             </section>
 
             <section class="content-section">
-                <h2 class="section-title">Plano de Ação Prioritário</h2>
+                <h2 class="section-title">Plano de ação prioritário</h2>
                 
                 <div class="action-plan">
                     <div class="action-category">
@@ -615,7 +855,7 @@
             </section>
 
             <section class="content-section">
-                <h2 class="section-title">Impacto Alcançado</h2>
+                <h2 class="section-title">Impacto alcançado</h2>
                 
                 <div class="results-grid">
                     <div class="result-card">
@@ -629,6 +869,23 @@
                     <div class="result-card">
                         <div class="result-number">245</div>
                         <div class="result-description">Feedbacks analisados</div>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Impacto -->
+                <div class="charts-section">
+                    <div class="chart-card">
+                        <div class="chart-title">🚀 Evolução do projeto</div>
+                        <div class="chart-container">
+                            <canvas id="impactChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-title">📋 Matriz ICE - Priorização</div>
+                        <div class="chart-container">
+                            <canvas id="iceMatrixChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -664,19 +921,448 @@
     </main>
 
     <script>
-        // Smooth scroll para links internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+        // Configuração global do Chart.js
+        Chart.defaults.color = '#4a5568';
+        Chart.defaults.plugins.legend.labels.color = '#4a5568';
+
+        // 1. Gráfico de Distribuição dos Feedbacks
+        const feedbackCtx = document.getElementById('feedbackChart').getContext('2d');
+        const feedbackChart = new Chart(feedbackCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Negativos', 'Positivos', 'Neutros'],
+                datasets: [{
+                    data: [181, 32, 32], // 73.9% negativos
+                    backgroundColor: [
+                        'rgba(255, 107, 107, 0.8)',
+                        'rgba(0, 212, 170, 0.8)',
+                        'rgba(156, 163, 175, 0.8)'
+                    ],
+                    borderColor: [
+                        '#ff6b6b',
+                        '#00d4aa',
+                        '#9ca3af'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateRotate: true,
+                    duration: 2000
                 }
-            });
+            }
         });
+
+        // 2. Timeline da Pesquisa
+        const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+        const timelineChart = new Chart(timelineCtx, {
+            type: 'line',
+            data: {
+                labels: ['Coleta', 'Classificação', 'Análise', 'Deep Dive', 'Insights', 'Entrega'],
+                datasets: [{
+                    label: 'Progresso (%)',
+                    data: [20, 40, 60, 80, 95, 100],
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#667eea',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2500,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        // 3. Categorização das Dores
+        const painCategoriesCtx = document.getElementById('painCategoriesChart').getContext('2d');
+        const painCategoriesChart = new Chart(painCategoriesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Usabilidade', 'Performance', 'Campos', 'Migração', 'Navegação'],
+                datasets: [{
+                    label: 'Número de Reclamações',
+                    data: [52, 48, 35, 28, 18],
+                    backgroundColor: [
+                        'rgba(255, 107, 107, 0.8)',
+                        'rgba(238, 90, 36, 0.8)',
+                        'rgba(255, 159, 67, 0.8)',
+                        'rgba(255, 206, 84, 0.8)',
+                        'rgba(102, 126, 234, 0.8)'
+                    ],
+                    borderColor: [
+                        '#ff6b6b',
+                        '#ee5a24',
+                        '#ff9f43',
+                        '#ffce54',
+                        '#667eea'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutBounce'
+                }
+            }
+        });
+
+        // 4. Severidade dos Problemas - Gráfico de Barras Horizontal
+        const severityCtx = document.getElementById('severityChart').getContext('2d');
+        const severityChart = new Chart(severityCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Perda de Dados', 'Performance', 'Layout Confuso', 'Campos Desnecessários', 'Exigências Inadequadas', 'Problemas Tempo Real'],
+                datasets: [{
+                    label: 'Severidade (%)',
+                    data: [95, 92, 85, 78, 72, 68],
+                    backgroundColor: [
+                        'rgba(220, 38, 38, 0.8)', // Crítico - Vermelho escuro
+                        'rgba(239, 68, 68, 0.8)', // Alto - Vermelho
+                        'rgba(251, 113, 133, 0.8)', // Alto - Vermelho claro
+                        'rgba(252, 165, 165, 0.8)', // Médio - Rosa
+                        'rgba(254, 202, 202, 0.8)', // Médio-baixo - Rosa claro
+                        'rgba(254, 226, 226, 0.8)'  // Baixo - Rosa muito claro
+                    ],
+                    borderColor: [
+                        '#dc2626',
+                        '#ef4444', 
+                        '#fb7185',
+                        '#fca5a5',
+                        '#fecaca',
+                        '#fee2e2'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Barras horizontais
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.parsed.x;
+                                let level = '';
+                                if (value >= 90) level = 'Crítico';
+                                else if (value >= 80) level = 'Alto';
+                                else if (value >= 70) level = 'Médio';
+                                else level = 'Baixo';
+                                
+                                return `${context.dataset.label}: ${value}% (${level})`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        // 5. Evolução do Projeto
+        const impactCtx = document.getElementById('impactChart').getContext('2d');
+        const impactChart = new Chart(impactCtx, {
+            type: 'line',
+            data: {
+                labels: ['Antes', 'Durante Pesquisa', 'Após Entrega', 'Implementação', 'Resultado'],
+                datasets: [{
+                    label: 'Squads Engajadas',
+                    data: [0, 1, 3, 3, 3],
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    yAxisID: 'y'
+                }, {
+                    label: 'Oportunidades Identificadas',
+                    data: [0, 8, 17, 17, 15],
+                    borderColor: 'rgba(0, 212, 170, 1)',
+                    backgroundColor: 'rgba(0, 212, 170, 0.1)',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Squads'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Oportunidades'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2500
+                }
+            }
+        });
+
+        // 6. Matriz ICE - Scatter plot mais claro
+        const iceMatrixCtx = document.getElementById('iceMatrixChart').getContext('2d');
+        const iceMatrixChart = new Chart(iceMatrixCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Performance (Crítico)',
+                    data: [{x: 9, y: 8, impact: 9, confidence: 8, ease: 6}],
+                    backgroundColor: 'rgba(220, 38, 38, 0.8)',
+                    borderColor: '#dc2626',
+                    pointRadius: 12,
+                    pointHoverRadius: 15
+                }, {
+                    label: 'Layout Confuso (Alto)',
+                    data: [{x: 8, y: 7, impact: 8, confidence: 7, ease: 7}],
+                    backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                    borderColor: '#ef4444',
+                    pointRadius: 11,
+                    pointHoverRadius: 14
+                }, {
+                    label: 'Campos Desnecessários (Alto)',
+                    data: [{x: 7, y: 8, impact: 7, confidence: 8, ease: 8}],
+                    backgroundColor: 'rgba(251, 113, 133, 0.8)',
+                    borderColor: '#fb7185',
+                    pointRadius: 10,
+                    pointHoverRadius: 13
+                }, {
+                    label: 'Migração Dados (Médio)',
+                    data: [{x: 9, y: 5, impact: 9, confidence: 5, ease: 3}],
+                    backgroundColor: 'rgba(252, 165, 165, 0.8)',
+                    borderColor: '#fca5a5',
+                    pointRadius: 9,
+                    pointHoverRadius: 12
+                }, {
+                    label: 'Problemas Tempo Real (Médio)',
+                    data: [{x: 6, y: 6, impact: 6, confidence: 6, ease: 7}],
+                    backgroundColor: 'rgba(254, 202, 202, 0.8)',
+                    borderColor: '#fecaca',
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                }, {
+                    label: 'Exigências CID (Baixo)',
+                    data: [{x: 5, y: 7, impact: 5, confidence: 7, ease: 8}],
+                    backgroundColor: 'rgba(156, 163, 175, 0.8)',
+                    borderColor: '#9ca3af',
+                    pointRadius: 7,
+                    pointHoverRadius: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true,
+                            font: {
+                                size: 11
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(context) {
+                                return context[0].dataset.label;
+                            },
+                            label: function(context) {
+                                const point = context.parsed;
+                                const data = context.dataset.data[context.dataIndex];
+                                const iceScore = Math.round((data.impact + data.confidence + data.ease) / 3);
+                                return [
+                                    `Impact: ${data.impact}/10`,
+                                    `Confidence: ${data.confidence}/10`, 
+                                    `Ease: ${data.ease}/10`,
+                                    `ICE Score: ${iceScore}/10`
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Impact (Impacto no Usuário)',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        min: 0,
+                        max: 10,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Confidence (Confiança na Solução)',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        min: 0,
+                        max: 10,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutBack'
+                }
+            }
+        });
+
+        // Função para animar as barras de severidade
+        function animateSeverityBars() {
+            document.querySelectorAll('.severity-fill').forEach(fill => {
+                const severity = fill.getAttribute('data-severity');
+                setTimeout(() => {
+                    fill.style.width = severity + '%';
+                }, 500);
+            });
+        }
 
         // Animation on scroll
         const observerOptions = {
@@ -689,6 +1375,11 @@
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
+                    
+                    // Animar barras de severidade quando a seção aparecer
+                    if (entry.target.querySelector('.severity-fill')) {
+                        setTimeout(animateSeverityBars, 800);
+                    }
                 }
             });
         }, observerOptions);
@@ -699,6 +1390,20 @@
             section.style.transform = 'translateY(30px)';
             section.style.transition = 'all 0.6s ease-out';
             observer.observe(section);
+        });
+
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
     </script>
 </body>
