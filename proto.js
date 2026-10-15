@@ -6,7 +6,9 @@
   function init(scope) {
     (scope || document).querySelectorAll('.proto:not([data-ready])').forEach(function (root) {
       root.setAttribute('data-ready', '');
-      var data = JSON.parse(root.querySelector('script[type="application/json"]').textContent);
+      var src = root.querySelector('script[type="application/json"]');
+      if (!src) return;
+      var data = JSON.parse(src.textContent);
       var stage = root.querySelector('.proto-stage');
       var label = root.querySelector('.proto-screen');
       var restart = root.querySelector('.proto-restart');

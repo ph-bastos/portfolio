@@ -29,6 +29,7 @@
       if (a) img.src = 'data:image/webp;base64,' + a;
     });
     if (window.initProtos) window.initProtos(document.getElementById('conteudo'));
+    if (page.js) { try { new Function(page.js)(); } catch (e) { console.error("sq", e); } }
     document.body.classList.add('unlocked');
     try { sessionStorage.setItem('pb-vault', pw); } catch (e) {}
   }
