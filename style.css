@@ -180,6 +180,8 @@ html.light .light{mix-blend-mode:normal;background:radial-gradient(clamp(280px,3
 .case-hero h1{font-weight:800;font-variation-settings:"wdth" 120;font-size:clamp(2.4rem,6.4vw,6rem);line-height:.92;letter-spacing:-.04em;max-width:16ch;text-wrap:balance}
 .case-hero .sub{margin-top:26px;font-size:1.25rem;line-height:1.45;max-width:46ch;color:color-mix(in srgb,var(--fg) 82%,transparent)}
 .case-hero .tags{margin-top:28px}
+.case-hero .role{margin-top:22px;font-size:1rem;max-width:62ch;padding:12px 16px;border-left:2px solid var(--pale);background:color-mix(in srgb,var(--ink) 35%,transparent);border-radius:0 8px 8px 0}
+.case-hero .role b{font-weight:600;margin-right:6px}
 .cover{margin-top:64px;border-radius:16px 16px 0 0;overflow:hidden;padding:clamp(16px,4vw,48px) clamp(16px,4vw,48px) 0;
   background:linear-gradient(140deg,var(--deep),var(--forest) 45%,var(--moss) 85%,var(--olive))}
 .cover-stat{display:flex;flex-wrap:wrap;gap:24px 56px;align-items:flex-end;padding-bottom:clamp(24px,4vw,48px);color:#EEF0E6}
