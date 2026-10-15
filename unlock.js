@@ -21,12 +21,14 @@
     var page = JSON.parse(await decrypt(pw, vault.textContent));
     var res = await fetch(form.dataset.assets);
     var assets = JSON.parse(await decrypt(pw, await res.text()));
+    window.__vault = assets;
     document.getElementById('vault-hero').innerHTML = page.hero;
     document.getElementById('conteudo').innerHTML = page.body;
     document.querySelectorAll('img[data-v]').forEach(function (img) {
       var a = assets[img.dataset.v];
       if (a) img.src = 'data:image/webp;base64,' + a;
     });
+    if (window.initProtos) window.initProtos(document.getElementById('conteudo'));
     document.body.classList.add('unlocked');
     try { sessionStorage.setItem('pb-vault', pw); } catch (e) {}
   }
