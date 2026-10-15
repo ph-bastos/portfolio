@@ -9,6 +9,7 @@
 <meta property="og:description" content="Product Designer com foco em estratégia, impacto e colaboração. Cases de saúde digital: prontuário, atendimento e produtividade médica.">
 <meta property="og:image" content="eu.jpg">
 <meta name="theme-color" content="#030503">
+<link rel="alternate" hreflang="pt-BR" href="index.html"><link rel="alternate" hreflang="en" href="en/index.html"><link rel="alternate" hreflang="es" href="es/index.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231C3A25'/%3E%3Cstop offset='1' stop-color='%239A9A48'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='26' text-anchor='middle' fill='%23EEF0E6'%3EPB%3C/text%3E%3C/svg%3E">
 <script>try{if(localStorage.getItem('pb-theme')==='light')document.documentElement.classList.add('light')}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +19,10 @@
 </head>
 <body class="home">
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-<header class="top"><div class="wrap"><a class="logo" href="index.html" aria-label="Início">PB</a><nav><a href="#projetos">Projetos</a><a href="#sobre">Sobre</a><a href="#contato">Contato</a><button id="theme" aria-label="Alternar tema claro e escuro">Claro</button></nav></div></header>
+<header class="top"><div class="wrap"><a class="logo" href="index.html" aria-label="Início">PB</a>
+<nav><div class="links"><a href="#projetos">Projetos</a><a href="#sobre">Sobre</a><a href="#contato">Contato</a></div>
+<div class="controls"><div class="lang" role="group" aria-label="Idioma"><a href="index.html" hreflang="pt" lang="pt-BR" aria-current="true">PT</a><a href="en/index.html" hreflang="en" lang="en">EN</a><a href="es/index.html" hreflang="es" lang="es">ES</a></div>
+<button class="theme" id="theme" role="switch" aria-checked="false" aria-label="Modo claro"><span class="knob"><svg class="moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none"/><path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg></span></button></div></nav></div></header>
 
 <div class="hero">
   <div class="aurora" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
@@ -37,10 +41,7 @@
   <section>
     <div class="wrap">
       <div class="head"><h2>Como eu trabalho</h2></div>
-      <ul class="methods">
-        <li>Pensamento sistêmico</li><li>Foco em objetivos de negócio</li><li>Racional de design bem documentado</li>
-        <li>Colaboração com produto, tech e negócio</li><li>Escrita clara e fluxos bem definidos</li><li>Entregas que buscam impacto real</li>
-      </ul>
+      <ul class="methods"><li>Pensamento sistêmico</li><li>Foco em objetivos de negócio</li><li>Racional de design bem documentado</li><li>Colaboração com produto, tech e negócio</li><li>Escrita clara e fluxos bem definidos</li><li>Entregas que buscam impacto real</li></ul>
     </div>
   </section>
 
@@ -49,25 +50,44 @@
       <div class="head"><h2>Projetos</h2><p>Prontuário, atendimento e produtividade médica.</p></div>
       <div class="cards">
         <article class="card">
-          <a class="shot" href="popup_atendimento_page.html" aria-label="Acessar case: Pop-ups inteligentes para atendimento médico"><span class="status">Em produção</span><img src="Image2.png" alt="" loading="lazy"><span class="glow"></span><span class="go">Acessar</span></a>
+          <a class="shot" href="popup_atendimento_page.html" aria-label="Acessar case: Pop-ups inteligentes para atendimento médico"><span class="status">Em produção</span><span class="art v1"><svg viewBox="0 0 220 160" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+  <rect x="6" y="26" width="168" height="120" rx="10" opacity=".45"/><line x1="6" y1="48" x2="174" y2="48" opacity=".45"/>
+  <rect x="20" y="62" width="40" height="56" rx="6" opacity=".3"/><rect x="68" y="62" width="40" height="56" rx="6" opacity=".3"/>
+  <rect x="106" y="6" width="108" height="86" rx="12" fill="#0A1A10" fill-opacity=".72"/>
+  <circle cx="134" cy="38" r="15" opacity=".35"/><path d="M134 23 a15 15 0 0 1 14 20"/>
+  <line x1="158" y1="31" x2="200" y2="31"/><line x1="158" y1="42" x2="188" y2="42" opacity=".55"/>
+  <rect x="150" y="64" width="52" height="15" rx="7.5" fill="currentColor" stroke="none"/></svg><span class="lbl">Pop-ups</span><span class="kick">Fila de atendimento</span></span><span class="glow"></span><span class="go">Acessar</span></a>
           <h3><a href="popup_atendimento_page.html">Pop-ups inteligentes para atendimento médico</a></h3>
           <p>Redesign do fluxo da fila de pacientes para aumentar a produtividade médica com pop-ups proativos e lógica contextual.</p>
           <div class="foot"><div class="tags"><span>UX Research</span><span>Interface</span><span>Produtividade</span></div><div class="kpi"><b>2,6</b><span>consultas/h (antes 1,71)</span></div></div>
         </article>
         <article class="card">
-          <a class="shot" href="projeto-assistente-ia.html" aria-label="Acessar case: Assistente de atendimento com IA"><span class="status">Em produção</span><img src="Image8.png" alt="" loading="lazy"><span class="glow"></span><span class="go">Acessar</span></a>
+          <a class="shot" href="projeto-assistente-ia.html" aria-label="Acessar case: Assistente de atendimento com IA"><span class="status">Em produção</span><span class="art v2"><svg viewBox="0 0 220 160" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+  <path d="M52 34 C55 58 61 64 86 67 C61 70 55 76 52 100 C49 76 43 70 18 67 C43 64 49 58 52 34Z" fill="currentColor" fill-opacity=".9" stroke="none"/>
+  <path d="M90 20 C91 29 93 31 102 32 C93 33 91 35 90 44 C89 35 87 33 78 32 C87 31 89 29 90 20Z"/>
+  <rect x="112" y="4" width="100" height="148" rx="12" fill="#0A1A10" fill-opacity=".6"/>
+  <line x1="124" y1="22" x2="170" y2="22"/><line x1="112" y1="34" x2="212" y2="34" opacity=".4"/>
+  <rect x="124" y="46" width="64" height="16" rx="8" opacity=".6"/><rect x="140" y="70" width="60" height="16" rx="8" fill="currentColor" fill-opacity=".25" stroke="none"/>
+  <rect x="124" y="94" width="48" height="16" rx="8" opacity=".6"/><rect x="122" y="126" width="80" height="16" rx="8" opacity=".45"/></svg><span class="lbl">Assistente IA</span><span class="kick">Prontuário</span></span><span class="glow"></span><span class="go">Acessar</span></a>
           <h3><a href="projeto-assistente-ia.html">Assistente de atendimento com IA</a></h3>
           <p>Componente flutuante que centraliza IA, chat e suporte no prontuário, pensado para evoluir sem depender da refatoração total da interface.</p>
           <div class="foot"><div class="tags"><span>Design System</span><span>IA</span><span>Mobile design</span></div></div>
         </article>
         <article class="card">
-          <a class="shot" href="central_notificacoes.html" aria-label="Acessar case: Central de notificações"><span class="status">Em produção</span><img src="Image4.png" alt="" loading="lazy"><span class="glow"></span><span class="go">Acessar</span></a>
+          <a class="shot" href="central_notificacoes.html" aria-label="Acessar case: Central de notificações"><span class="status">Em produção</span><span class="art v3"><svg viewBox="0 0 220 160" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M28 104 h64 l-9-12 V66 a23 23 0 0 0 -46 0 v26 z"/><path d="M52 112 a8 8 0 0 0 16 0"/>
+  <circle cx="84" cy="44" r="8" fill="currentColor" stroke="none"/>
+  <g><circle cx="122" cy="34" r="4" fill="currentColor" stroke="none"/><line x1="136" y1="30" x2="208" y2="30"/><line x1="136" y1="41" x2="186" y2="41" opacity=".5"/></g>
+  <g><circle cx="122" cy="76" r="4" fill="currentColor" stroke="none"/><line x1="136" y1="72" x2="200" y2="72"/><line x1="136" y1="83" x2="190" y2="83" opacity=".5"/></g>
+  <g opacity=".45"><circle cx="122" cy="118" r="4"/><line x1="136" y1="114" x2="204" y2="114"/><line x1="136" y1="125" x2="176" y2="125"/></g>
+  <line x1="110" y1="56" x2="212" y2="56" opacity=".25"/><line x1="110" y1="98" x2="212" y2="98" opacity=".25"/></svg><span class="lbl">Notificações</span><span class="kick">Central de alertas</span></span><span class="glow"></span><span class="go">Acessar</span></a>
           <h3><a href="central_notificacoes.html">Central de notificações</a></h3>
           <p>Alertas, mensagens e ações pendentes reunidos em um só lugar para o profissional de saúde.</p>
           <div class="foot"><div class="tags"><span>Interface</span><span>Produtividade</span><span>Mobile design</span></div><div class="kpi"><b>+37%</b><span>interações por sessão</span></div></div>
         </article>
         <article class="card">
-          <a class="shot" href="mapeamento-dores-prontuario.html" aria-label="Acessar case: Mapeamento de dores no prontuário"><span class="status">UX Research</span><img src="Image1.png" alt="" loading="lazy"><span class="glow"></span><span class="go">Acessar</span></a>
+          <a class="shot" href="mapeamento-dores-prontuario.html" aria-label="Acessar case: Mapeamento de dores no prontuário"><span class="status">UX Research</span><span class="art v4"><svg viewBox="0 0 220 160" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+  <line x1="20" y1="8" x2="20" y2="152" opacity=".45"/><rect x="28" y="12" width="180" height="12" rx="6" fill="currentColor" fill-opacity="0.95" stroke="none"/><rect x="28" y="36" width="150" height="12" rx="6" fill="currentColor" fill-opacity="0.8" stroke="none"/><rect x="28" y="60" width="112" height="12" rx="6" fill="currentColor" fill-opacity="0.6" stroke="none"/><rect x="28" y="84" width="86" height="12" rx="6" fill="currentColor" fill-opacity="0.45" stroke="none"/><rect x="28" y="108" width="56" height="12" rx="6" fill="currentColor" fill-opacity="0.32" stroke="none"/><rect x="28" y="132" width="30" height="12" rx="6" fill="currentColor" fill-opacity="0.22" stroke="none"/></svg><span class="lbl">Mapa de dores</span><span class="kick">Pesquisa</span></span><span class="glow"></span><span class="go">Acessar</span></a>
           <h3><a href="mapeamento-dores-prontuario.html">Mapeamento de dores no prontuário</a></h3>
           <p>Levantamento estratégico das dores reais de profissionais da saúde no uso do prontuário digital.</p>
           <div class="foot"><div class="tags"><span>Triangulação de dados</span><span>Análise heurística</span><span>Produtividade</span></div><div class="kpi"><b>245</b><span>feedbacks analisados</span></div></div>
@@ -90,7 +110,7 @@
       <h2>Vamos<br>conversar?</h2>
       <div class="c-row">
         <a class="mail" href="mailto:phbomoreira@gmail.com">phbomoreira@gmail.com</a>
-        <button class="btn primary" id="copy">Copiar e-mail</button>
+        <button class="btn primary" id="copy" data-done="E-mail copiado">Copiar e-mail</button>
         <a class="btn" href="https://www.linkedin.com/in/pedro-bastos-bb30a3106/" target="_blank" rel="noopener">LinkedIn</a>
         <a class="btn" href="https://wa.me/5521993375818" target="_blank" rel="noopener">WhatsApp</a>
       </div>
